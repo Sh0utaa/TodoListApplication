@@ -1,0 +1,80 @@
+﻿@model TodoViewModel
+@{
+    ViewData["Title"] = "TodoList";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">To-Do List</h1>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form asp-controller="Home" asp-action="AddTodo" method="post">
+                    <div class="form-group d-flex">
+                        <input id="taskName" class="form-control" asp-for="SingleTodo.TaskName" autocomplete="off" />
+                        <button type="submit" class="btn btn-dark" style="margin-left: 10px;">ADD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-3">
+            <ul class="list-group">
+                @foreach (var Todo in Model.TodoList)
+                {
+                    @if(!Todo.IsCompleted)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@Todo.TaskName</span>
+                            <span class="d-flex">
+                                <form asp-action="RemoveTodo" method="post" class="m-0">
+                                    <button type="submit" name="TaskId" value="@Todo.TaskId" class="btn btn-dark">Remove</button>
+                                </form>
+
+                                <div class="mx-2"></div> <!-- Add spacing here -->
+
+                                <a asp-action="AlterCheck" asp-route-CheckId="@Todo.IsCompleted" asp-route-TaskId="@Todo.TaskId" class="btn @if(Todo.IsCompleted){
+                                <text>btn-success</text>
+                                    }else{
+                                <text>btn-secondary</text>
+                                    } ml-1">
+                                    @(Todo.IsCompleted ? "Completed" : "Complete")
+                                </a>
+                            </span>
+                        </li>
+                    }
+                }
+                @foreach(var Todo in Model.TodoList)
+                {
+                    @if(Todo.IsCompleted)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@Todo.TaskName</span>
+                            <span class="d-flex">
+                                <form asp-action="RemoveTodo" method="post" class="m-0">
+                                    <button type="submit" name="TaskId" value="@Todo.TaskId" class="btn btn-dark">Remove</button>
+                                </form>
+
+                                <div class="mx-2"></div> <!-- Add spacing here -->
+
+                                <a asp-action="AlterCheck" asp-route-CheckId="@Todo.IsCompleted" asp-route-TaskId="@Todo.TaskId" class="btn @if(Todo.IsCompleted){
+                                <text>btn-success</text>
+                                    }else{
+                                <text>btn-secondary</text>
+                                    } ml-1">
+                                    @(Todo.IsCompleted ? "Completed" : "Complete")
+                                                </a>
+                            </span>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
